@@ -9,8 +9,7 @@ namespace Core.Food
         [SerializeField] private List<FoodType> _producingFoodTypes;
         [SerializeField] private float _speed;
         [SerializeField] private Worker _worker;
-
-        private int _level = 0;
+        [SerializeField] private int _level = 0;
 
         public event Action<int> OnLevelUpgraded;
         public event Action<Worker> OnWorkerChanged;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Core.Food
 {
@@ -12,7 +13,8 @@ namespace Core.Food
         Coffee,
     }
 
-    public struct Food
+    [CreateAssetMenu(menuName = "Food/Food", fileName = "New Food")]
+    public class Food : ScriptableObject
     {
         public FoodType FoodType;
         public int Price;
