@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class DragCamera2D : MonoBehaviour
 {
@@ -43,95 +44,135 @@ public class DragCamera2D : MonoBehaviour
      *  Double clicking area restricted by area clamp locks camera in lerp to double click target
     */
 
-    public Camera cam;
+    [FormerlySerializedAs("cam")] 
+    [SerializeField] private Camera _camera;
 
     [Header("Camera Movement")]
-
+    
     [Tooltip("Allow the Camera to be dragged.")]
-    public bool dragEnabled = true;
-    [Tooltip("Mouse button responsible for drag.")]
-    public MouseButton mouseButton;
+    [FormerlySerializedAs("dragEnabled")]
+    [SerializeField] private bool _dragEnabled = true;
+
     [Range(-5, 5)]
     [Tooltip("Speed the camera moves when dragged.")]
-    public float dragSpeed = -0.06f;
+    [FormerlySerializedAs("dragSpeed")]
+    [SerializeField] private  float _dragSpeed = -0.06f;
 
+    [FormerlySerializedAs("ztTarget")]
     [Header("Double Click Action (DC)")]
-    public Dc2dZoomTarget ztTarget;
+    [SerializeField] private  Dc2dZoomTarget _ztTarget;
+    
+    [FormerlySerializedAs("DCTranslate")]
     [Tooltip("Move to DC location")]
-    public bool DCTranslate = true;
+    [SerializeField] private  bool _translate = true;
+    
+    [FormerlySerializedAs("DCZoom")]
     [Tooltip("Zoom DC location")]
-    public bool DCZoom = true;
+    [SerializeField] private  bool _zoom = true;
+    
+    [FormerlySerializedAs("DCZoomTargetIn")]
     [Tooltip("Target Zoom Level for DC")]
     [Range(0.1f, 10f)]
-    public float DCZoomTargetIn = 4f;
+    [SerializeField] private  float _zoomTargetIn = 4f;
+    
+    [FormerlySerializedAs("DCZoomTranslateSpeed")]
     [Tooltip("DC Translation Speed")]
     [Range(0.01f, 1f)]
-    public float DCZoomTranslateSpeed = 0.5f;
+    [SerializeField] private  float _zoomTranslateSpeed = 0.5f;
+    
+    [FormerlySerializedAs("DCZoomTargetOut")]
     [Tooltip("Target Zoom Level for DC")]
     [Range(0.1f, 10f)]
-    public float DCZoomTargetOut = 10f;
+    [SerializeField] private  float _zoomTargetOut = 10f;
+    
+    [FormerlySerializedAs("DCZoomSpeed")]
     [Tooltip("DC Zoom Speed")]
     [Range(0.01f, 1f)]
-    public float DCZoomSpeed = 0.5f;
-    private bool DCZoomedOut = true;
+    [SerializeField] private  float _zoomSpeed = 0.5f;
+    
+    private bool _zoomedOut = true;
+    
 
+    [FormerlySerializedAs("edgeBoundary")]
     [Header("Edge Scrolling")]
     [Tooltip("Pixel Border to trigger edge scrolling")]
-    public int edgeBoundary = 20;
+    [SerializeField] private int _edgeBoundary = 20;
+    
+    [FormerlySerializedAs("edgeSpeed")]
     [Range(0, 10)]
     [Tooltip("Speed the camera moves Mouse enters screen edge.")]
-    public float edgeSpeed = 1f;
+    [SerializeField] private float _edgeSpeed = 1f;
 
+    [FormerlySerializedAs("keyboardInput")]
     [Header("Touch(PRO) & Keyboard Input")]
     [Tooltip("Enable or disable Keyboard input")]
-    public bool keyboardInput = false;
+    [SerializeField] private bool _keyboardInput = false;
+    
+    [FormerlySerializedAs("inverseKeyboard")]
     [Tooltip("Invert keyboard direction")]
-    public bool inverseKeyboard = false;
+    [SerializeField] private bool _inverseKeyboard = false;
+    
+    [FormerlySerializedAs("touchEnabled")]
     [Tooltip("Enable or disable touch input")]
-    public bool touchEnabled = false;
+    [SerializeField] private bool _touchEnabled = false;
+    
+    [FormerlySerializedAs("touchDragSpeed")]
     [Tooltip("Drag Speed for touch controls")]
     [Range(-5,5)]
-    public float touchDragSpeed = -0.03f;
+    [SerializeField] private float _touchDragSpeed = -0.03f;
 
+    [FormerlySerializedAs("zoomEnabled")]
     [Header("Zoom")]
     [Tooltip("Enable or disable zooming")]
-    public bool zoomEnabled = true;
+    [SerializeField] private bool _zoomEnabled = true;
+    
+    [FormerlySerializedAs("linkedZoomDrag")]
     [Tooltip("Scale drag movement with zoom level")]
-    public bool linkedZoomDrag = true;
+    [SerializeField] private bool _linkedZoomDrag = true;
+    
+    [FormerlySerializedAs("maxZoom")]
     [Tooltip("Maximum Zoom Level")]
-    public float maxZoom = 10;
+    [SerializeField] private float _maxZoom = 10;
+    
+    [FormerlySerializedAs("minZoom")]
     [Tooltip("Minimum Zoom Level")]
     [Range(0.01f, 10)]
-    public float minZoom = 0.5f;
+    [SerializeField] private float _minZoom = 0.5f;
+    
+    [FormerlySerializedAs("zoomStepSize")]
     [Tooltip("The Speed the zoom changes")]
     [Range(0.1f, 10f)]
-    public float zoomStepSize = 0.5f;
+    [SerializeField] private float _zoomStepSize = 0.5f;
+    
+    [FormerlySerializedAs("zoomToMouse")]
     [Tooltip("Enable Zooming to mouse pointer")]
-    public bool zoomToMouse = false;
+    [SerializeField] private bool _zoomToMouse = false;
 
    
 
 
+    [FormerlySerializedAs("followTarget")]
     [Header("Follow Object")]
-    public GameObject followTarget;
-    [Range(0.01f,1f)]
-    public float lerpSpeed = 0.5f;
-    public Vector3 offset = new Vector3(0,0,-10);
-
-
-    [Header("Camera Bounds")]
-    public bool clampCamera = true;
-    public CameraBounds bounds; 
-    public Dc2dDolly dollyRail;
-
+    [SerializeField] private GameObject _followTarget;
     
-    //hidden
-    [HideInInspector]
-    public enum MouseButton {
-        Left = 0,
-        Middle = 2,
-        Right = 1
-    }
+    [FormerlySerializedAs("lerpSpeed")]
+    [Range(0.01f,1f)]
+    [SerializeField] private float _lerpSpeed = 0.5f;
+    
+    [FormerlySerializedAs("offset")]
+    [SerializeField] private Vector3 _offset = new Vector3(0,0,-10);
+
+
+    [FormerlySerializedAs("clampCamera")]
+    [Header("Camera Bounds")]
+    [SerializeField] private bool _clampCamera = true;
+    
+    [FormerlySerializedAs("bounds")]
+    [SerializeField] private CameraBounds _bounds; 
+    
+    [FormerlySerializedAs("dollyRail")]
+    [SerializeField] private Dc2dDolly _dollyRail;
+    
 
     // private vars
     Vector3 bl;
@@ -140,111 +181,112 @@ public class DragCamera2D : MonoBehaviour
 
     public Dc2dSnapBox snapTarget;
 
-    int frameid = 0;
+    private int frameid = 0;
 
-    void Start() {
-        if (cam == null) {
-            cam = Camera.main;
+    private void Start() {
+        if (_camera == null) {
+            _camera = Camera.main;
         }
     }
 
-    void LateUpdate() {
+    private void LateUpdate() {
         frameid++;
-        if (dragEnabled) {
-            panControl();
+        
+        if (_dragEnabled) {
+            PanControl();
         }
 
-        if (edgeBoundary > 0) {
-            edgeScroll();
+        if (_edgeBoundary > 0) {
+            EdgeScroll();
         }
 
 
-        if (zoomEnabled) {
-            zoomControl();
+        if (_zoomEnabled) {
+            ZoomControl();
         }
 
         if (snapTarget != null) {
             //using snap targets do da snap
-            conformToSnapTarget();
+            ConformToSnapTarget();
         } else {
-            if (followTarget != null) {
-                transform.position = Vector3.Lerp(transform.position, followTarget.transform.position + offset, lerpSpeed);
+            if (_followTarget != null) {
+                transform.position = Vector3.Lerp(transform.position, _followTarget.transform.position + _offset, _lerpSpeed);
             }
         }
 
-        if (DCTranslate || DCZoom) {
-            zoomTarget();
+        if (_translate || _zoom) {
+            ZoomTarget();
         }
 
-        if (clampCamera) {
-            cameraClamp();
+        if (_clampCamera) {
+            CameraClamp();
         }
 
-        if (touchEnabled) {
-            doTouchControls();
+        if (_touchEnabled) {
+            DoTouchControls();
         }
 
-        if(dollyRail != null) {
-            stickToDollyRail();
+        if(_dollyRail != null) {
+            StickToDollyRail();
         }
     }
 
-    private void zoomTarget() {
-        if (ztTarget == null) {
+    private void ZoomTarget() {
+        if (_ztTarget == null) {
             throw new UnassignedReferenceException("No Dc2dZoomTarget object. Please add one to your scene from the prefab folder, create an object with the Dc2dZoomTarget script or turn off Double Click zoom actions");
         }
 
-        if (ztTarget.zoomToMe && DCTranslate) {
-            Vector3 targetLoc = ztTarget.transform.position;
-            targetLoc.z = offset.z; // lock ofset to cams offset
+        if (_ztTarget.zoomToMe && _translate) {
+            Vector3 targetLoc = _ztTarget.transform.position;
+            targetLoc.z = _offset.z; // lock ofset to cams offset
             transform.position = Vector3.Lerp(transform.position , targetLoc, 0.3f);
-            if(ztTarget.zoomToMe && Vector3.Distance(transform.position, targetLoc) < 0.2f) {
-                ztTarget.zoomToMe = false;
+            if(_ztTarget.zoomToMe && Vector3.Distance(transform.position, targetLoc) < 0.2f) {
+                _ztTarget.zoomToMe = false;
             }
         }
-        if (DCZoom && !ztTarget.zoomComplete) {
-            if (DCZoomedOut) {
-                Camera.main.orthographicSize = Mathf.Lerp(DCZoomTargetIn, Camera.main.orthographicSize, 0.1f);
-                if (Camera.main.orthographicSize == DCZoomTargetIn) {
-                    ztTarget.zoomComplete = true;
-                    DCZoomedOut = !DCZoomedOut;
+        if (_zoom && !_ztTarget.zoomComplete) {
+            if (_zoomedOut) {
+                Camera.main.orthographicSize = Mathf.Lerp(_zoomTargetIn, Camera.main.orthographicSize, 0.1f);
+                if (Camera.main.orthographicSize == _zoomTargetIn) {
+                    _ztTarget.zoomComplete = true;
+                    _zoomedOut = !_zoomedOut;
                 }
             } else {
-                Camera.main.orthographicSize = Mathf.Lerp(DCZoomTargetOut, Camera.main.orthographicSize, 0.1f);
-                if (Camera.main.orthographicSize == DCZoomTargetOut) {
-                    ztTarget.zoomComplete = true;
-                    DCZoomedOut = !DCZoomedOut;
+                Camera.main.orthographicSize = Mathf.Lerp(_zoomTargetOut, Camera.main.orthographicSize, 0.1f);
+                if (Camera.main.orthographicSize == _zoomTargetOut) {
+                    _ztTarget.zoomComplete = true;
+                    _zoomedOut = !_zoomedOut;
                 }
             }
         }
     }
 
-    private void edgeScroll() {
+    private void EdgeScroll() {
         float x = 0;
         float y = 0;
-        if (Input.mousePosition.x >= Screen.width - edgeBoundary) {
+        if (Input.mousePosition.x >= Screen.width - _edgeBoundary) {
             // Move the camera
-            x = Time.deltaTime * edgeSpeed;
+            x = Time.deltaTime * _edgeSpeed;
         }
-        if (Input.mousePosition.x <= 0 + edgeBoundary) {
+        if (Input.mousePosition.x <= 0 + _edgeBoundary) {
             // Move the camera
-            x = Time.deltaTime * -edgeSpeed;
+            x = Time.deltaTime * -_edgeSpeed;
         }
-        if (Input.mousePosition.y >= Screen.height - edgeBoundary) {
+        if (Input.mousePosition.y >= Screen.height - _edgeBoundary) {
             // Move the camera
-            y = Time.deltaTime * edgeSpeed
+            y = Time.deltaTime * _edgeSpeed
 ;
         }
-        if (Input.mousePosition.y <= 0 + edgeBoundary) {
+        if (Input.mousePosition.y <= 0 + _edgeBoundary) {
             // Move the camera
-            y =  Time.deltaTime * -edgeSpeed
+            y =  Time.deltaTime * -_edgeSpeed
 ;
         }
         transform.Translate(x, y, 0);
     }
 
     public void addCameraDolly() {
-        if (dollyRail == null) {
+        if (_dollyRail == null) {
             GameObject go = new GameObject("Dolly");
             Dc2dDolly dolly = go.AddComponent<Dc2dDolly>();
 
@@ -271,7 +313,7 @@ public class DragCamera2D : MonoBehaviour
             //bezpoints[0] = new Vector3(0.5f, 0.5f, 0);
             //dolly.bezierWaypoints = bezpoints;
 
-            this.dollyRail = dolly;
+            this._dollyRail = dolly;
 
 #if UNITY_EDITOR
             Selection.activeGameObject = go;
@@ -281,12 +323,12 @@ public class DragCamera2D : MonoBehaviour
     }
 
     public void addCameraBounds() {
-        if (bounds == null) {
+        if (_bounds == null) {
             GameObject go = new GameObject("CameraBounds");
             CameraBounds cb = go.AddComponent<CameraBounds>();
             cb.guiColour = new Color(0,0,1f,0.1f);
             cb.pointa = new Vector3(20,20,0);
-            this.bounds = cb;
+            this._bounds = cb;
 #if UNITY_EDITOR
             EditorUtility.SetDirty(this);
 #endif
@@ -295,33 +337,33 @@ public class DragCamera2D : MonoBehaviour
 
     // adds a zoom target object to the scene to enable double click zooming
     public void addZoomTarget() {
-        if (ztTarget == null) {
+        if (_ztTarget == null) {
             GameObject go = new GameObject("Dc2dZoomTarget");
             Dc2dZoomTarget zt = go.AddComponent<Dc2dZoomTarget>();
-            this.ztTarget = zt;
+            this._ztTarget = zt;
 #if UNITY_EDITOR
             EditorUtility.SetDirty(this);
 #endif
         }
     }
 
-    public void doTouchControls() {
+    private void DoTouchControls() {
        // PRO Only
     }
 
     //click and drag
-    public void panControl() {
+    private void PanControl() {
         // if keyboard input is allowed
-        if (keyboardInput) {
-            float x = -Input.GetAxis("Horizontal") * dragSpeed;
-            float y = -Input.GetAxis("Vertical") * dragSpeed;
+        if (_keyboardInput) {
+            var x = -Input.GetAxis("Horizontal") * _dragSpeed;
+            var y = -Input.GetAxis("Vertical") * _dragSpeed;
 
-            if (linkedZoomDrag) {
+            if (_linkedZoomDrag) {
                 x *= Camera.main.orthographicSize;
                 y *= Camera.main.orthographicSize;
             }
 
-            if (inverseKeyboard) {
+            if (_inverseKeyboard) {
                 x = -x;
                 y = -y;
             }
@@ -330,12 +372,12 @@ public class DragCamera2D : MonoBehaviour
 
        
 
-       // if mouse is down
-        if (Input.GetMouseButton((int)mouseButton)) {
-            float x = Input.GetAxis("Mouse X") * dragSpeed;
-            float y = Input.GetAxis("Mouse Y") * dragSpeed;
+        // if mouse is down
+        if (Input.GetMouseButton(0)) {
+            float x = Input.GetAxis("Mouse X") * _dragSpeed;
+            float y = Input.GetAxis("Mouse Y") * _dragSpeed;
 
-            if (linkedZoomDrag) {
+            if (_linkedZoomDrag) {
                 x *= Camera.main.orthographicSize;
                 y *= Camera.main.orthographicSize;
             }
@@ -347,8 +389,8 @@ public class DragCamera2D : MonoBehaviour
     }
 
     private void clampZoom() {
-        Camera.main.orthographicSize =  Mathf.Clamp(Camera.main.orthographicSize, minZoom, maxZoom);
-        Mathf.Max(cam.orthographicSize, 0.1f);
+        Camera.main.orthographicSize =  Mathf.Clamp(Camera.main.orthographicSize, _minZoom, _maxZoom);
+        Mathf.Max(_camera.orthographicSize, 0.1f);
 
 
     }
@@ -361,31 +403,31 @@ public class DragCamera2D : MonoBehaviour
         // Zoom camera
         Camera.main.orthographicSize -= amount;
         // Limit zoom
-        Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, minZoom, maxZoom);
+        Camera.main.orthographicSize = Mathf.Clamp(Camera.main.orthographicSize, _minZoom, _maxZoom);
     }
 
     // managae zooming
-    public void zoomControl() {
-        if (zoomToMouse) {
-            if (Input.GetAxis("Mouse ScrollWheel") > 0 && minZoom < Camera.main.orthographicSize) // forward
+    public void ZoomControl() {
+        if (_zoomToMouse) {
+            if (Input.GetAxis("Mouse ScrollWheel") > 0 && _minZoom < Camera.main.orthographicSize) // forward
             {
-                ZoomOrthoCamera(Camera.main.ScreenToWorldPoint(Input.mousePosition), zoomStepSize);
+                ZoomOrthoCamera(Camera.main.ScreenToWorldPoint(Input.mousePosition), _zoomStepSize);
             }
-            if(Input.GetAxis("Mouse ScrollWheel") < 0 && maxZoom > Camera.main.orthographicSize) // back            
+            if(Input.GetAxis("Mouse ScrollWheel") < 0 && _maxZoom > Camera.main.orthographicSize) // back            
             {
-                ZoomOrthoCamera(Camera.main.ScreenToWorldPoint(Input.mousePosition), -zoomStepSize);
+                ZoomOrthoCamera(Camera.main.ScreenToWorldPoint(Input.mousePosition), -_zoomStepSize);
             }
 
         } else {
 
-            if (Input.GetAxis("Mouse ScrollWheel") > 0 && minZoom < Camera.main.orthographicSize) // forward
+            if (Input.GetAxis("Mouse ScrollWheel") > 0 && _minZoom < Camera.main.orthographicSize) // forward
             {
-                Camera.main.orthographicSize = Camera.main.orthographicSize - zoomStepSize;
+                Camera.main.orthographicSize = Camera.main.orthographicSize - _zoomStepSize;
             }
 
-            if (Input.GetAxis("Mouse ScrollWheel") < 0 && maxZoom > Camera.main.orthographicSize) // back            
+            if (Input.GetAxis("Mouse ScrollWheel") < 0 && _maxZoom > Camera.main.orthographicSize) // back            
             {
-                Camera.main.orthographicSize = Camera.main.orthographicSize + zoomStepSize;
+                Camera.main.orthographicSize = Camera.main.orthographicSize + _zoomStepSize;
             }
         }
         clampZoom();
@@ -398,29 +440,29 @@ public class DragCamera2D : MonoBehaviour
     private bool lfymin = false;
 
     // Clamp Camera to bounds
-    private void cameraClamp() {
-        tr = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, cam.pixelHeight, -transform.position.z));
-        bl = cam.ScreenToWorldPoint(new Vector3(0, 0, -transform.position.z));
+    private void CameraClamp() {
+        tr = _camera.ScreenToWorldPoint(new Vector3(_camera.pixelWidth, _camera.pixelHeight, -transform.position.z));
+        bl = _camera.ScreenToWorldPoint(new Vector3(0, 0, -transform.position.z));
 
-        if(bounds == null) {
+        if(_bounds == null) {
             Debug.Log("Clamp Camera Enabled but no Bounds has been set.");
             return;
         }
 
-        float boundsMaxX = bounds.pointa.x;
-        float boundsMinX = bounds.transform.position.x;
-        float boundsMaxY = bounds.pointa.y;
-        float boundsMinY = bounds.transform.position.y;
+        float boundsMaxX = _bounds.pointa.x;
+        float boundsMinX = _bounds.transform.position.x;
+        float boundsMaxY = _bounds.pointa.y;
+        float boundsMinY = _bounds.transform.position.y;
 
         if (tr.x > boundsMaxX && bl.x < boundsMinX) {
             Debug.Log("User tried to zoom out past x axis bounds - locked to bounds");
-            Camera.main.orthographicSize = Camera.main.orthographicSize - zoomStepSize; // zoomControl in to compensate
+            Camera.main.orthographicSize = Camera.main.orthographicSize - _zoomStepSize; // zoomControl in to compensate
             clampZoom();
         }
 
         if (tr.y > boundsMaxY && bl.y < boundsMinY) {
             Debug.Log("User tried to zoom out past y axis bounds - locked to bounds");
-            Camera.main.orthographicSize = Camera.main.orthographicSize - zoomStepSize; // zoomControl in to compensate
+            Camera.main.orthographicSize = Camera.main.orthographicSize - _zoomStepSize; // zoomControl in to compensate
             clampZoom();
         }
 
@@ -431,7 +473,7 @@ public class DragCamera2D : MonoBehaviour
 
         if (tr.x > boundsMaxX) {
             if (lfxmin) {
-                Camera.main.orthographicSize = Camera.main.orthographicSize - zoomStepSize; // zoomControl in to compensate
+                Camera.main.orthographicSize = Camera.main.orthographicSize - _zoomStepSize; // zoomControl in to compensate
                 clampZoom();
             } else {
                 transform.position = new Vector3(transform.position.x - (tr.x - boundsMaxX), transform.position.y, transform.position.z);
@@ -440,7 +482,7 @@ public class DragCamera2D : MonoBehaviour
         }
         if (tr.y > boundsMaxY) {
             if (lfymin) {
-                Camera.main.orthographicSize = Camera.main.orthographicSize - zoomStepSize; // zoomControl in to compensate
+                Camera.main.orthographicSize = Camera.main.orthographicSize - _zoomStepSize; // zoomControl in to compensate
                 clampZoom();
             } else {
                 transform.position = new Vector3(transform.position.x, transform.position.y - (tr.y - boundsMaxY), transform.position.z);
@@ -449,7 +491,7 @@ public class DragCamera2D : MonoBehaviour
         } 
         if (bl.x < boundsMinX) {
             if (lfxmax) {
-                Camera.main.orthographicSize = Camera.main.orthographicSize - zoomStepSize; // zoomControl in to compensate
+                Camera.main.orthographicSize = Camera.main.orthographicSize - _zoomStepSize; // zoomControl in to compensate
                 clampZoom();
             } else {
                 transform.position = new Vector3(transform.position.x + (boundsMinX - bl.x), transform.position.y, transform.position.z);
@@ -458,7 +500,7 @@ public class DragCamera2D : MonoBehaviour
         }
         if (bl.y < boundsMinY) {
             if (lfymax) {
-                Camera.main.orthographicSize = Camera.main.orthographicSize - zoomStepSize; // zoomControl in to compensate
+                Camera.main.orthographicSize = Camera.main.orthographicSize - _zoomStepSize; // zoomControl in to compensate
                 clampZoom();
             } else {
                 transform.position = new Vector3(transform.position.x, transform.position.y + (boundsMinY - bl.y), transform.position.z);
@@ -472,14 +514,14 @@ public class DragCamera2D : MonoBehaviour
         lfymin = tfymin;
     }
 
-    public void stickToDollyRail() {
-        if(dollyRail != null && followTarget != null) {
-            Vector3 campos = dollyRail.getPositionOnTrack(followTarget.transform.position);
+    public void StickToDollyRail() {
+        if(_dollyRail != null && _followTarget != null) {
+            Vector3 campos = _dollyRail.getPositionOnTrack(_followTarget.transform.position);
             transform.position = new Vector3(campos.x, campos.y, transform.position.z);
         }
     }
 
-    public void conformToSnapTarget() {
+    public void ConformToSnapTarget() {
         float cx = (snapTarget.endPoint.x - snapTarget.transform.position.x)/2 + snapTarget.transform.position.x;
         float cy = (snapTarget.endPoint.y - snapTarget.transform.position.y)/ 2 + snapTarget.transform.position.y;
         transform.position = Vector3.Lerp(transform.position, new Vector3(cx, cy, transform.position.z), 0.5f ); // has to be fast to counter zoom jitter

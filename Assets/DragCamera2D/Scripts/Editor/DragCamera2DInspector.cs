@@ -24,7 +24,7 @@ public class DragCamera2DInspector : Editor {
 
         DragCamera2D aTarget = dc2d as DragCamera2D; // define target for vars to be set to
 
-        dc2d.cam = (Camera)EditorGUILayout.ObjectField(new GUIContent("Camera", "Camera to control withj DragCamera2D script"), dc2d.cam, typeof(Camera), true);
+        dc2d._camera = (Camera)EditorGUILayout.ObjectField(new GUIContent("Camera", "Camera to control withj DragCamera2D script"), dc2d._camera, typeof(Camera), true);
         dc2d.dragEnabled = EditorGUILayout.Toggle(new GUIContent("Drag Enabled", "Enable/Disable camera movement"), dc2d.dragEnabled);
         dc2d.mouseButton = (DragCamera2D.MouseButton)EditorGUILayout.EnumPopup(new GUIContent("Mouse Button", "Mouse button responsible for drag."), dc2d.mouseButton);
         dc2d.dragSpeed = EditorGUILayout.Slider(new GUIContent("Drag Speed", "Speed the camera moves when dragged."), dc2d.dragSpeed, -5f, 5f);
