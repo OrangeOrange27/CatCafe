@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Zenject;
 
 namespace Core.Food
 {
@@ -18,6 +19,13 @@ namespace Core.Food
         private WorkplaceManager _workplaceManager;
         private FoodFactory _foodFactory;
         private bool _isProducingFood;
+
+        [Inject]
+        private void Construct(WorkplaceManager workplaceManager, FoodFactory foodFactory)
+        {
+            _workplaceManager = workplaceManager;
+            _foodFactory = foodFactory;
+        }
 
         private void FixedUpdate()
         {

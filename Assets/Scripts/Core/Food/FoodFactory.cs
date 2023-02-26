@@ -4,8 +4,10 @@ namespace Core.Food
 {
     public class FoodFactory : IFactory<FoodData,Food>
     {
-        private FoodPriceManager _foodPriceManager;
-        private FoodIconManager _foodIconManager;
+        [Inject]
+        private IFoodPriceManager _foodPriceManager;
+        [Inject]
+        private IFoodIconManager _foodIconManager;
         
         public Food Create(FoodData foodData)
         {
