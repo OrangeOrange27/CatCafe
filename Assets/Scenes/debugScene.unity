@@ -1016,6 +1016,52 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &920440796
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 920440798}
+  - component: {fileID: 920440797}
+  m_Layer: 0
+  m_Name: CameraBounds
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &920440797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920440796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5731efadae823846889e5db23187794, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointa: {x: -91.8, y: 15.6, z: 0}
+  guiColour: {r: 0, g: 0, b: 1, a: 0.1}
+--- !u!4 &920440798
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920440796}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -107.23, y: 0, z: -15}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2029228928
 GameObject:
   m_ObjectHideFlags: 0
@@ -1197,6 +1243,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6435360718680672286, guid: 59c24bfe810978b4ca5e3f9f38f81ae6,
         type: 3}
+      propertyPath: bounds
+      value: 
+      objectReference: {fileID: 920440797}
+    - target: {fileID: 6435360718680672286, guid: 59c24bfe810978b4ca5e3f9f38f81ae6,
+        type: 3}
       propertyPath: dragSpeed
       value: -0.2
       objectReference: {fileID: 0}
@@ -1204,6 +1255,11 @@ PrefabInstance:
         type: 3}
       propertyPath: edgeSpeed
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6435360718680672286, guid: 59c24bfe810978b4ca5e3f9f38f81ae6,
+        type: 3}
+      propertyPath: clampCamera
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6435360718680672286, guid: 59c24bfe810978b4ca5e3f9f38f81ae6,
         type: 3}
@@ -1228,7 +1284,7 @@ PrefabInstance:
     - target: {fileID: 9192415915131791507, guid: 59c24bfe810978b4ca5e3f9f38f81ae6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -16.57
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 9192415915131791507, guid: 59c24bfe810978b4ca5e3f9f38f81ae6,
         type: 3}
