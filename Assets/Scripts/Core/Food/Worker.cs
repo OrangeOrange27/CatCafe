@@ -10,6 +10,9 @@ namespace Core.Food
 
         [SerializeField]
         private int _level = 0;
+        
+        public bool CanWork { get; private set; }
+        public List<FoodBonus> FoodBonuses => _foodBonusList;
         public event Action<int> OnLevelUpgraded;
 
         public void UpgradeLevel()

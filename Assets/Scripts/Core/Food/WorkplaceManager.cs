@@ -17,5 +17,10 @@ namespace Core.Food
         {
             _workplaces.Remove(workplace);
         }
+
+        public void OnFoodProduced(Food food)
+        {
+            //TODO add to food temp storage after playing animations
+        }
     }
 }

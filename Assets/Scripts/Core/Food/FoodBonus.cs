@@ -4,7 +4,10 @@ namespace Core.Food
 {
     public enum FoodBonusType
     {
-        //TODO implement
+        PriceFromWorkplaceLevel,
+        PriceFromWorkerLevel,
+        AdditionalProfit,
+        AdditionalSpeed,
     }
     
     [CreateAssetMenu(menuName = "Food/FoodBonus", fileName = "New FoodBonus")]

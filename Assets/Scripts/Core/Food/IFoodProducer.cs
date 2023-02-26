@@ -1,10 +1,11 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 
 namespace Core.Food
 {
     public interface IFoodProducer
     {
-        Food ProduceFood(FoodType foodType, List<FoodBonus> bonuses);
+        UniTask<Food> ProduceFood(FoodType foodType, List<FoodBonus> bonuses);
     }
 }
 
