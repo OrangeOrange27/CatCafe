@@ -40,6 +40,8 @@ namespace Core.Food
 
         public async UniTask<Food> ProduceFood(FoodType foodType, List<FoodBonus> bonuses)
         {
+            _worker.StartWorking();
+            
             var food = _foodFactory.Create(new FoodData(foodType, bonuses));
 
             await UniTask.Delay(TimeSpan.FromSeconds(_productionTimeInSeconds));
@@ -47,6 +49,8 @@ namespace Core.Food
             OnFoodProduced(food);
             _isProducingFood = false;
             
+            _worker.StopWorking();
+
             return food;
         }
 

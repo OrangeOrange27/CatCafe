@@ -21,7 +21,7 @@ namespace Core.Food
             }
             catch (Exception e)
             {
-                Debug.LogError(e);
+                Debug.LogError($"Can not set icon to food! | Exception: {e}");
                 SetDefaultIconToFood(food);
             }
         }

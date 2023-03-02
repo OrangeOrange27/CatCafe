@@ -21,6 +21,7 @@ namespace Core.Food
         public void OnFoodProduced(Food food)
         {
             //TODO add to food temp storage after playing animations
+            Debug.Log($"Produced: {food.FoodType}");
         }
     }
 }
