@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace Core.Food
 {
     public class WorkplaceManager : MonoBehaviour
     {
-        [SerializeField] 
-        private List<BaseWorkplace> _workplaces;
+        [SerializeField] private List<BaseWorkplace> _workplaces;
+
+        [Inject] private FoodStorageManager _foodStorageManager;
 
         public void AddWorkplace(BaseWorkplace workplace)
         {
@@ -21,6 +23,7 @@ namespace Core.Food
         public void OnFoodProduced(Food food)
         {
             //TODO add to food temp storage after playing animations
+            _foodStorageManager.AddFood(food);
             Debug.Log($"Produced: {food.FoodType}");
         }
     }

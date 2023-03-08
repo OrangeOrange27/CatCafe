@@ -1,4 +1,5 @@
 using Core.Food;
+using UI.MainUI.FoodStorage;
 using UnityEngine;
 using Zenject;
 
@@ -16,6 +17,8 @@ namespace Installers
 
             Container.Bind<IFoodPriceManager>().To<FoodPriceManager>().AsSingle();
             Container.Bind<FoodFactory>().ToSelf().AsSingle();
+            
+            Container.Bind<FoodStorageManager>().ToSelf().AsSingle().NonLazy();
         }
     }
 }

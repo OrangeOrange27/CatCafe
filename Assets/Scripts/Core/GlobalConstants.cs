@@ -7,5 +7,7 @@ namespace Core
         
         public const string DEBUG_CHARACTER_IDLE_ANIMATION_NAME = "Hit"; //IdleAction2
         public const string DEBUG_CHARACTER_COOK_ANIMATION_NAME = "IdleAction2"; //Hit
+
+        public const int FOOD_QUEUE_MAX_SIZE = 8;
     }
 }
