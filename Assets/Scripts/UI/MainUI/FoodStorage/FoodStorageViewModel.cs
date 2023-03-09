@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Core.Food;
 using UnityEngine;
@@ -6,36 +7,58 @@ using Zenject;
 
 namespace UI.MainUI.FoodStorage
 {
-    public class FoodStorageViewModel : UIBehaviour
+    public class FoodStorageViewModel : UIBehaviour, IDisposable
     {
-        [SerializeField] public List<FoodStorageElementView> _foodViews;
+        [SerializeField] private RectTransform _foodStorageContent;
+        [SerializeField] private FoodStorageElementView _foodStorageElementPrefab;
+
+        private List<FoodStorageElementView> _foodViews;
 
         [Inject] private FoodStorageManager _foodStorageManager;
 
         protected override void Awake()
         {
             base.Awake();
-            
-            _foodStorageManager.OnFoodSold += OnFoodSold;
-            _foodStorageManager.OnFoodAddedToStorage += OnFoodAddedToStorage;
+            Init();
         }
 
-        private void OnFoodSold(Food food)
+        private void Init()
         {
-            
+            _foodViews = new List<FoodStorageElementView>();
+
+            _foodStorageManager.OnFoodSold += SellFood;
+            _foodStorageManager.OnFoodAddedToStorage += AddFoodToStorage;
         }
-        
-        private void OnFoodAddedToStorage(Food food)
+
+        private void SellFood(Food foodToSell, int index)
         {
+            var view = _foodViews[index];
             
+            view.Dispose();
+            _foodViews.Remove(_foodViews[index]);
+            Destroy(view.gameObject);
         }
+
+        private void AddFoodToStorage(Food food)
+        {
+            var view = Instantiate(_foodStorageElementPrefab, _foodStorageContent);
+            view.Init(this, food.FoodIcon);
+            _foodViews.Add(view);
+        }
+
+        public void OnSellButtonClicked(FoodStorageElementView view)
+            => _foodStorageManager.SellFood(_foodViews.IndexOf(view));
 
         protected override void OnDestroy()
         {
+            Dispose();
             base.OnDestroy();
-            
-            _foodStorageManager.OnFoodSold -= OnFoodSold;
-            _foodStorageManager.OnFoodAddedToStorage -= OnFoodAddedToStorage;
+        }
+
+        public void Dispose()
+        {
+            _foodStorageManager.OnFoodSold -= SellFood;
+            _foodStorageManager.OnFoodAddedToStorage -= AddFoodToStorage;
         }
     }
 }

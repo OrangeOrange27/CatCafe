@@ -6,32 +6,34 @@ namespace Core.Food
 {
     public class FoodStorageManager
     {
-        public event Action<Food> OnFoodSold;
+        public event Action<Food, int> OnFoodSold;
         public event Action<Food> OnFoodAddedToStorage;
-        
-        private readonly Queue<Food> _foodQueue;
+        public int ItemsInStorage => _foodList.Count;
+
+        private readonly List<Food> _foodList;
 
         [Inject]
         public FoodStorageManager()
         {
-            _foodQueue = new Queue<Food>();
+            _foodList = new List<Food>();
         }
 
         public void AddFood(Food food)
         {
-            _foodQueue.Enqueue(food);
-            
-            OnFoodAddedToStorage?.Invoke(food);
-            
-            if (_foodQueue.Count >= GlobalConstants.FOOD_QUEUE_MAX_SIZE)
+            if (_foodList.Count >= GlobalConstants.FOOD_STORAGE_MAX_SIZE)
             {
-                SellFood();
+                SellFood(0);
             }
+
+            _foodList.Add(food);
+            OnFoodAddedToStorage?.Invoke(food);
         }
 
-        public void SellFood()
+        public void SellFood(int index)
         {
-            OnFoodSold?.Invoke(_foodQueue.Dequeue());
+            var foodToSell = _foodList[index];
+            _foodList.Remove(foodToSell);
+            OnFoodSold?.Invoke(foodToSell, index);
         }
     }
 }
