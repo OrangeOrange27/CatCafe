@@ -1,5 +1,6 @@
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -20,7 +21,7 @@ namespace Web
             getRequest.SendWebRequest();
 
             while (!getRequest.isDone) await Task.Delay(10);
-            return JsonUtility.FromJson<T>(getRequest.downloadHandler.text);
+            return JsonConvert.DeserializeObject<T>(getRequest.downloadHandler.text);
         }
 
         public async Task<T> Post<T>(object request)
@@ -29,7 +30,7 @@ namespace Web
             postRequest.SendWebRequest();
 
             while (!postRequest.isDone) await Task.Delay(10);
-            return JsonUtility.FromJson<T>(postRequest.downloadHandler.text);
+            return JsonConvert.DeserializeObject<T>(postRequest.downloadHandler.text);
         }
 
 
