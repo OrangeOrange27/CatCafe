@@ -1,5 +1,4 @@
 using Core.Food;
-using UI.MainUI.FoodStorage;
 using UnityEngine;
 using Zenject;
 
